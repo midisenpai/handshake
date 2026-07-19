@@ -4,26 +4,26 @@ module handshake_master #(parameter
 			  ) (conn);
    handshake_if conn;
 
-   typedef struct {
+   typedef struct packed {
       logic [conn.DATA_BITS-1:0] data;
       logic                      valid;
       logic			 ready;
-   } handshake_beat_t;
+   } handshake_master_beat_t;
 
-   typedef mailbox 		   #(handshake_beat_t) handshake_inbox_t;
+   typedef mailbox 		   #(handshake_master_beat_t) handshake_inbox_t;
 
    handshake_inbox_t handshake_inbox  = new();
    handshake_inbox_t handshake_expect = new();
 
-   handshake_beat_t empty_beat = '{default: '0};
-   handshake_beat_t temp_beat;
+   handshake_master_beat_t empty_beat = '{default: '0};
+   handshake_master_beat_t temp_beat;
 
 
    /**************************************************************************
     * Writes a beat to the handshake BFM output lines
     **************************************************************************/
    task write_beat;
-      input handshake_beat_t temp;
+      input handshake_master_beat_t temp;
 
       begin
 	 // Write output beat
@@ -41,7 +41,7 @@ module handshake_master #(parameter
       input logic [conn.DATA_BITS-1:0]  data;
       input logic			valid;
 
-      handshake_beat_t temp;
+      handshake_master_beat_t temp;
 
       begin
 	 temp.valid = valid;
@@ -61,7 +61,7 @@ module handshake_master #(parameter
    task get_beat;
       output logic [conn.DATA_BITS-1:0] data;
 
-      handshake_beat_t temp;
+      handshake_master_beat_t temp;
 
       begin
 	 // Get output beat from mailbox

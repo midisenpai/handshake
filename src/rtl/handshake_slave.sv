@@ -10,20 +10,20 @@ module handshake_slave #(parameter
 
   typedef struct packed {
     logic [conn.DATA_BITS-1:0] data;
-  } handshake_beat_t;
+  } handshake_slave_beat_t;
 
-  typedef mailbox #(handshake_beat_t) handshake_inbox_t;
+  typedef mailbox #(handshake_slave_beat_t) handshake_inbox_t;
 
   handshake_inbox_t handshake_inbox = new();
   handshake_inbox_t handshake_expect_inbox = new();
 
-  handshake_beat_t empty_beat = '{'0};
+  handshake_slave_beat_t empty_beat = '{'0};
 
   /**************************************************************************
    * Read a single valid beat from the bus and insert it into the mailbox.
    **************************************************************************/
   task read_beat;
-    handshake_beat_t temp_check;
+    handshake_slave_beat_t temp_check;
 
     begin
       $timeformat(-9, 2, " ns", 20);
@@ -116,7 +116,7 @@ module handshake_slave #(parameter
   task get_beat;
     output logic [conn.DATA_BITS-1:0] data;
 
-    handshake_beat_t temp;
+    handshake_slave_beat_t temp;
 
     begin
       handshake_inbox.get(temp);
