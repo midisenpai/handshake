@@ -1,5 +1,5 @@
 CAPI=2:
-name: midisenpai:comm:handshake:0.1.4
+name: midisenpai:comm:handshake:0.1.5
 description: The core hardware handshake
 
 filesets:
